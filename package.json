@@ -2,7 +2,7 @@
   "name": "pro6-yelpcamp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "dev": "node app.js"
   },

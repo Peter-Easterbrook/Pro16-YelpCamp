@@ -10,8 +10,12 @@
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted"><%= campground.location%></li>
+        <li class="list-group-item text-muted">
+          Posted by: <%= campground.author%>
+        </li>
         <li class="list-group-item">$<%= campground.price%>/night</li>
       </ul>
+      <% if( currentUser.equals(currentUser._id)) {%>
       <div class="card-body">
         <a
           class="card-link btn btn-info px-4"
@@ -28,10 +32,12 @@
           </button>
         </form>
       </div>
+      <% } %>
       <div class="card-footer text-muted">2 days ago</div>
     </div>
   </div>
   <div class="col-4">
+    <% if( currentUser) {%>
     <h2>Leave a review</h2>
     <form
       action="/campgrounds/<%=campground._id%>/reviews"
@@ -65,7 +71,7 @@
         <button class="btn btn-success">submit</button>
       </div>
     </form>
-    <% for(let review of campground.reviews) { %>
+    <% } %> <% for(let review of campground.reviews) { %>
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title">Rating: <%= review.rating%></h5>
