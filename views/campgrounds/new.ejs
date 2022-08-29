@@ -1,8 +1,14 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
   <h1 class="text-center">New Campground</h1>
-  <div class="col-6 offset-3">
-    <form action="/campgrounds" method="POST" novalidate class="validated-form">
+  <div class="col-8 offset-2">
+    <form
+      action="/campgrounds"
+      method="POST"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input
@@ -23,21 +29,16 @@
           name="campground[location]"
           required
         />
-
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <div class="mb-3">
-        <label class="form-label" for="image">Image Url</label>
-        <input
-          class="form-control"
-          type="text"
-          id="image"
-          name="campground[image]"
-          required
-        />
 
-        <div class="valid-feedback">Looks good!</div>
-      </div>
+      <!-- <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="campground[image]" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div> -->
       <div class="mb-3">
         <label class="form-label" for="price">Campground Price</label>
         <div class="input-group">
@@ -52,8 +53,8 @@
             name="campground[price]"
             required
           />
-          <div class="valid-feedback">Looks good!</div>
         </div>
+        <div class="valid-feedback">Looks good!</div>
       </div>
 
       <div class="mb-3">
@@ -65,39 +66,29 @@
           name="campground[description]"
           required
         ></textarea>
-
         <div class="valid-feedback">Looks good!</div>
       </div>
       <div class="mb-3">
-        <button class="btn btn-success float-end">Add Campground</button>
+        <div class="form-file custom-file">
+          <input
+            type="file"
+            class="form-file-input"
+            id="image"
+            name="image"
+            multiple
+          />
+          <label class="form-file-label" for="image">
+            <span class="form-file-text custom-file-label"
+              >Choose image(s)...</span
+            >
+            <span class="form-file-button">Browse</span>
+          </label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success float-right">Add Campground</button>
       </div>
     </form>
-    <a href="/campgrounds" class="mt-2 float-start text-decoration-none"
-      >All Campgrounds</a
-    >
+    <a href="/campgrounds">All Campgrounds</a>
   </div>
 </div>
-<script>
-  (() => {
-    'use strict';
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.validated-form');
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach((form) => {
-      form.addEventListener(
-        'submit',
-        (event) => {
-          if (!form.checkValidity()) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-
-          form.classList.add('was-validated');
-        },
-        false
-      );
-    });
-  })();
-</script>
