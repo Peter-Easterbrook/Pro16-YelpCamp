@@ -5,23 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YelpCamp</title>
     <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/favicon/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon/favicon-16x16.png"
-    />
-    <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
       integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
@@ -36,9 +19,9 @@
         <div>
           <h3 class="float-md-left mb-0">YelpCamp</h3>
           <nav class="nav nav-masthead justify-content-center float-md-right">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" href="/">Home</a>
             <a class="nav-link" href="/campgrounds">Campgrounds</a>
-            <a class="nav-link" href="/about">About</a>
+            <a class="nav-link active" aria-current="page"  href="#">About</a>
             <% if(!currentUser) { %>
             <a class="nav-link" href="/login">Login</a>
             <a class="nav-link" href="/register">Register</a>
@@ -48,26 +31,36 @@
           </nav>
         </div>
       </header>
-      <main class="px-3">
-        <h1>YelpCamp</h1>
-        <p class="lead">
-          Welcome to YelpCamp! <br />
-          Jump right in and explore our many campgrounds. <br />
-          Feel free to share some of your own and comment on others!
-        </p>
-        <a
-          href="/campgrounds"
-          class="btn btn-lg btn-secondary border-white bg-white"
-          >View Campgrounds</a
-        >
-      </main>
+      
+        <div class="card m-auto bg-dark shadow-sm " style="width: 18rem">
+          <div class="card text-center bg-dark  ">
+            <h3 class="card-header text-light">
+              About
+            </h3>
+          <div class="card-body text-light">
+            <h5 class="card-title text-light">Made with:</h5>
 
-      <footer class="mt-auto text-white-70">
-        <a href="https://gateway.onestepweb.dev/" class="text-white-70"
-          >OneStepWeb</a
-        >
-        &copy; <%= new Date().getFullYear() %>
-      </footer>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item bg-dark bg-gradient ">Embedded JS Templating</li>
+              <li class="list-group-item bg-dark bg-gradient ">NodeJS</li>
+              <li class="list-group-item bg-dark bg-gradient ">MapBox</li>
+              <li class="list-group-item bg-dark bg-gradient ">Cloudinary</li>
+              <li class="list-group-item bg-dark bg-gradient ">ExpressJS</li>
+              <li class="list-group-item bg-dark bg-gradient ">Helmet</li>
+              <li class="list-group-item bg-dark bg-gradient ">JOI</li>
+              <li class="list-group-item bg-dark bg-gradient ">Mongoose</li>
+              <li class="list-group-item bg-dark bg-gradient ">Multer</li>
+              <li class="list-group-item bg-dark bg-gradient ">Passport</li>
+              <li class="list-group-item bg-dark bg-gradient ">Sanitize</li>
+            </ul>
+            <a
+              href="https://gateway.onestepweb.dev/"
+              class="btn btn-dark btn-block border-light"
+              >OneStepWeb</a
+            >
+          </div>
+        </div>
+   
     </div>
 
     <script
