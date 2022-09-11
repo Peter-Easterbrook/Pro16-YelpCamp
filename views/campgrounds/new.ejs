@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-  <h1 class="text-center">New Campground</h1>
-  <div class="col-8 offset-2">
+  <h1 class="text-center pb-3">New Campground</h1>
+  <div class="card py-3 col-6 offset-3 shadow-sm bg-dark bg-gradient">
     <form
       action="/campgrounds"
       method="POST"
@@ -10,7 +10,7 @@
       enctype="multipart/form-data"
     >
       <div class="mb-3">
-        <label class="form-label" for="title">Title</label>
+        <label class="form-label text-light" for="title">Title</label>
         <input
           class="form-control"
           type="text"
@@ -18,10 +18,10 @@
           name="campground[title]"
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div class="valid-feedback text-light">Looks good!</div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="location">Location</label>
+        <label class="form-label text-light" for="location">Location</label>
         <input
           class="form-control"
           type="text"
@@ -29,7 +29,7 @@
           name="campground[location]"
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div class="valid-feedback text-light">Looks good!</div>
       </div>
 
       <!-- <div class="mb-3">
@@ -40,7 +40,9 @@
                 </div>
             </div> -->
       <div class="mb-3">
-        <label class="form-label" for="price">Campground Price</label>
+        <label class="form-label text-light" for="price"
+          >Campground Price</label
+        >
         <div class="input-group">
           <span class="input-group-text" id="price-label">$</span>
           <input
@@ -54,11 +56,13 @@
             required
           />
         </div>
-        <div class="valid-feedback">Looks good!</div>
+        <div class="valid-feedback text-light">Looks good!</div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
+        <label class="form-label text-light" for="description"
+          >Description</label
+        >
         <textarea
           class="form-control"
           type="text"
@@ -66,7 +70,7 @@
           name="campground[description]"
           required
         ></textarea>
-        <div class="valid-feedback">Looks good!</div>
+        <div class="valid-feedback text-light">Looks good!</div>
       </div>
       <div class="mb-3">
         <div class="form-file custom-file">
@@ -85,10 +89,12 @@
           </label>
         </div>
       </div>
+
       <div class="mb-3">
-        <button class="btn btn-success float-right">Add Campground</button>
+        <button class="btn btn-success float-right shadow-sm">
+          Add Campground
+        </button>
       </div>
     </form>
-    <a href="/campgrounds">All Campgrounds</a>
   </div>
 </div>

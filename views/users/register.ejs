@@ -2,14 +2,14 @@
 <div class="container d-flex justify-content-center align-items-center my-3">
   <div class="row">
     <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
-      <div class="card shadow-sm">
+      <div class="card bg-dark bg-gradient shadow-sm">
         <img
           src="https://res.cloudinary.com/onestep-webdev/image/upload/v1662570013/YelpCamp/jsxpqi5agjviidwqiggg.jpg"
           alt=""
           class="card-img-top"
         />
         <div class="card-body">
-          <h5 class="card-title">Register</h5>
+          <h5 class="card-title text-light">Register</h5>
           <form
             action="/register"
             method="POST"
@@ -17,7 +17,9 @@
             novalidate
           >
             <div class="mb-3">
-              <label class="form-label" for="username">Username</label>
+              <label class="form-label text-light" for="username"
+                >Username</label
+              >
               <input
                 class="form-control"
                 type="text"
@@ -26,10 +28,10 @@
                 required
                 autofocus
               />
-              <div class="valid-feedback">Looks good!</div>
+              <div class="valid-feedback text-light">Looks good!</div>
             </div>
             <div class="mb-3">
-              <label class="form-label" for="email">Email</label>
+              <label class="form-label text-light" for="email">Email</label>
               <input
                 class="form-control"
                 type="email"
@@ -37,10 +39,12 @@
                 name="email"
                 required
               />
-              <div class="valid-feedback">Looks good!</div>
+              <div class="valid-feedback text-light">Looks good!</div>
             </div>
             <div class="mb-3">
-              <label class="form-label" for="password">Password</label>
+              <label class="form-label text-light" for="password"
+                >Password</label
+              >
               <input
                 class="form-control"
                 type="password"
@@ -48,9 +52,11 @@
                 name="password"
                 required
               />
-              <div class="valid-feedback">Looks good!</div>
+              <div class="valid-feedback text-light">Looks good!</div>
             </div>
-            <button class="btn btn-success btn-block">Register</button>
+            <button class="btn btn-success btn-block shadow-sm">
+              Register
+            </button>
           </form>
         </div>
       </div>

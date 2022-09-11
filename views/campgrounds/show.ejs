@@ -57,7 +57,7 @@
           action="/campgrounds/<%=campground._id%>?_method=DELETE"
           method="POST"
         >
-          <button class="btn btn-danger float-right">Delete</button>
+          <button class="btn btn-danger float-right shadow-sm">Delete</button>
         </form>
       </div>
       <% } %>
@@ -65,7 +65,7 @@
     </div>
   </div>
   <div class="col-6">
-    <div id="map" class="shadow"></div>
+    <div id="map" class="shadow-sm"></div>
     <% if(currentUser){ %>
     <h2>Leave a Review</h2>
     <form
@@ -111,7 +111,7 @@
         ></textarea>
         <div class="valid-feedback">Looks good!</div>
         <div class="text-right">
-          <button class="btn btn-success mt-3">Submit</button>
+          <button class="btn btn-success mt-3 shadow-sm">Submit</button>
         </div>
       </div>
     </form>
@@ -129,7 +129,9 @@
           action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
           method="POST"
         >
-          <button class="btn btn-sm btn-danger float-right">Delete</button>
+          <button class="btn btn-sm btn-danger float-right shadow-sm">
+            Delete
+          </button>
         </form>
         <% } %>
       </div>

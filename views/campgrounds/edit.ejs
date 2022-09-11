@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate')%>
 <div class="row mb-4">
-  <h1 class="text-center">Edit Campground</h1>
-  <div class="col-8 offset-2">
+  <h1 class="text-center my-4">Edit Campground</h1>
+  <div class="card col-6 offset-3 py-3 bg-dark bg-gradient shadow-sm">
     <form
       action="/campgrounds/<%=campground._id%>?_method=PUT"
       method="POST"
@@ -10,7 +10,7 @@
       enctype="multipart/form-data"
     >
       <div class="mb-3">
-        <label class="form-label" for="title">Title</label>
+        <label class="form-label text-light" for="title">Title</label>
         <input
           class="form-control"
           type="text"
@@ -19,10 +19,10 @@
           value="<%=campground.title %>"
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div class="valid-feedback text-light">Looks good!</div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="location">Location</label>
+        <label class="form-label text-light" for="location">Location</label>
         <input
           class="form-control"
           type="text"
@@ -31,11 +31,13 @@
           value="<%=campground.location %>"
           required
         />
-        <div class="valid-feedback">Looks good!</div>
+        <div class="valid-feedback text-light">Looks good!</div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="price">Campground Price</label>
+        <label class="form-label text-light" for="price"
+          >Campground Price</label
+        >
         <div class="input-group">
           <span class="input-group-text" id="price-label">$</span>
           <input
@@ -49,12 +51,14 @@
             value="<%=campground.price %>"
             required
           />
-          <div class="valid-feedback">Looks good!</div>
+          <div class="valid-feedback text-light">Looks good!</div>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label" for="description">Description</label>
+        <label class="form-label text-light" for="description"
+          >Description</label
+        >
         <textarea
           class="form-control"
           type="text"
@@ -64,7 +68,7 @@
         >
 <%= campground.description%></textarea
         >
-        <div class="valid-feedback">Looks good!</div>
+        <div class="valid-feedback text-light">Looks good!</div>
       </div>
       <div class="mb-3">
         <div class="form-file custom-file">
@@ -86,7 +90,7 @@
       <div class="mb-3">
         <% campground.images.forEach(function(img, i) { %>
 
-        <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="" />
+        <img src="<%=img.thumbnail %>" class="img-thumbnail mb-2 mr-2" alt="" />
         <div class="form-check-inline">
           <input
             type="checkbox"
@@ -95,13 +99,13 @@
             value="<%=img.filename%>"
           />
         </div>
-        <label for="image-<%=i%>">Delete?</label>
+        <label class="text-light" for="image-<%=i%>">Delete?</label>
         <% })%>
       </div>
-      <div class="mb-3">
-        <button class="btn btn-info float-right">Update Campground</button>
-      </div>
+
+      <button class="btn btn-info btn-block shadow-sm">
+        Update Campground
+      </button>
     </form>
-    <a href="/campgrounds/<%= campground._id%>">Back To Campground</a>
   </div>
 </div>

@@ -12,13 +12,16 @@ const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
+const MongoDBStore = require('connect-mongo');
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp');
+const dbUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017/yelp-camp';
 
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
@@ -34,9 +37,30 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  mongoSanitize({
+    replaceWith: '_',
+  })
+);
+
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+
+const store = MongoDBStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: 'squirrel',
+  },
+});
+
+store.on('error', function (e) {
+  console.log('SESSION STORE ERROR', e);
+});
 
 const sessionConfig = {
-  secret: 'this is a secret',
+  store,
+  name: 'session',
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -48,6 +72,59 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(helmet({ crossOriginEmbedderPolicy: false }));
+
+const scriptSrcUrls = [
+  'https://stackpath.bootstrapcdn.com/',
+  'https://api.tiles.mapbox.com/',
+  'https://api.mapbox.com/',
+  'https://kit.fontawesome.com/',
+  'https://cdnjs.cloudflare.com/',
+  'https://cdn.jsdelivr.net',
+  'https://res.cloudinary.com/onestep-webdev/',
+];
+const styleSrcUrls = [
+  'https://kit-free.fontawesome.com/',
+  'https://stackpath.bootstrapcdn.com/',
+  'https://api.mapbox.com/',
+  'https://api.tiles.mapbox.com/',
+  'https://fonts.googleapis.com/',
+  'https://use.fontawesome.com/',
+  'https://cdn.jsdelivr.net',
+];
+const connectSrcUrls = [
+  'https://api.mapbox.com/',
+  'https://*.tiles.mapbox.com',
+  'https://events.mapbox.com/',
+  'https://res.cloudinary.com/onestep-webdev/',
+];
+const fontSrcUrls = ['https://res.cloudinary.com/onestep-webdev/'];
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: [],
+        connectSrc: ["'self'", ...connectSrcUrls],
+        scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+        styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+        workerSrc: ["'self'", 'blob:'],
+        objectSrc: [],
+        imgSrc: [
+          "'self'",
+          'blob:',
+          'data:',
+          'https://res.cloudinary.com/onestep-webdev/', //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+          'https://images.unsplash.com/',
+        ],
+        fontSrc: ["'self'", ...fontSrcUrls],
+        mediaSrc: ['https://res.cloudinary.com/onestep-webdev/'],
+        childSrc: ['blob:'],
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,12 +141,14 @@ app.use((req, res, next) => {
 });
 
 app.use('/', userRoutes);
-app.use('/about');
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 
 app.get('/', (req, res) => {
   res.render('home');
+});
+app.get('/about', (req, res) => {
+  res.render('about');
 });
 
 app.all('*', (req, res, next) => {
