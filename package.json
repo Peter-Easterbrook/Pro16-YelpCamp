@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": ">=14.20.1",
+    "npm": ">=7.24.0"
+  },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "noop": "echo 'No-op command'"
   },
   "keywords": [],
   "author": "",
