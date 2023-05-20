@@ -1,5 +1,28 @@
+// const BaseJoi = require('joi');
+// const sanitizeHtml = require('sanitize-html');
+
+// const extension = (joi) => ({
+//   type: 'string',
+//   base: joi.string(),
+//   messages: {
+//     'string.escapeHTML': '{{#label}} must not include HTML!',
+//   },
+//   rules: {
+//     escapeHTML: {
+//       validate(value, helpers) {
+//         const clean = sanitizeHtml(value, {
+//           allowedTags: [],
+//           allowedAttributes: {},
+//         });
+//         if (clean !== value)
+//           return helpers.error('string.escapeHTML', { value });
+//         return clean;
+//       },
+//     },
+//   },
+// });
+
 const BaseJoi = require('joi');
-const sanitizeHtml = require('sanitize-html');
 
 const extension = (joi) => ({
   type: 'string',
@@ -10,17 +33,23 @@ const extension = (joi) => ({
   rules: {
     escapeHTML: {
       validate(value, helpers) {
-        const clean = sanitizeHtml(value, {
-          allowedTags: [],
-          allowedAttributes: {},
-        });
-        if (clean !== value)
+        const escapedValue = value
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#x27;')
+          .replace(/`/g, '&#x60;');
+
+        if (escapedValue !== value)
           return helpers.error('string.escapeHTML', { value });
-        return clean;
+        return escapedValue;
       },
     },
   },
 });
+
+const Joi = BaseJoi.extend(extension);
 
 const Joi = BaseJoi.extend(extension);
 
