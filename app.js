@@ -133,7 +133,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
+  res.locals.currentUser = req.user || null;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
   next();
@@ -150,7 +150,8 @@ app.get('/about', (req, res) => {
   res.render('about');
 });
 
-app.all('*', (req, res, next) => {
+// Changed: use app-level middleware as catch-all instead of a route pattern
+app.use((req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
 });
 

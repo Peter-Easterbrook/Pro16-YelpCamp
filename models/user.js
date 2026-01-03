@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const passportLocalMongoose = require('passport-local-mongoose');
+// Normalize import so it works whether the module exports the function directly or under .default
+const _passportLocalMongoose = require('passport-local-mongoose');
+const passportLocalMongoose =
+  typeof _passportLocalMongoose === 'function'
+    ? _passportLocalMongoose
+    : _passportLocalMongoose.default || _passportLocalMongoose;
 
 const UserSchema = new Schema({
   email: {
