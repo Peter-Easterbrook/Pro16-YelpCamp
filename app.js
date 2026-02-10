@@ -13,7 +13,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize');
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
@@ -37,11 +36,25 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(
-  mongoSanitize({
-    replaceWith: '_',
-  })
-);
+
+// Custom mongo sanitize middleware (Express 5 compatible)
+const sanitize = (obj) => {
+  if (obj && typeof obj === 'object') {
+    for (const key in obj) {
+      if (key.startsWith('$') || key.includes('.')) {
+        delete obj[key];
+      } else if (typeof obj[key] === 'object') {
+        sanitize(obj[key]);
+      }
+    }
+  }
+  return obj;
+};
+app.use((req, res, next) => {
+  if (req.body) sanitize(req.body);
+  if (req.params) sanitize(req.params);
+  next();
+});
 
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
@@ -95,6 +108,8 @@ const connectSrcUrls = [
   'https://*.tiles.mapbox.com',
   'https://events.mapbox.com/',
   'https://res.cloudinary.com/onestep-webdev/',
+  'https://stackpath.bootstrapcdn.com/',
+  'https://cdn.jsdelivr.net/',
 ];
 const fontSrcUrls = ['https://res.cloudinary.com/onestep-webdev/'];
 
@@ -157,6 +172,11 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Oh No, Something Went Wrong!';
+  // Only log server errors, not 404s
+  if (statusCode >= 500) {
+    console.error('Error:', err.message);
+    console.error('Stack:', err.stack);
+  }
   res.status(statusCode).render('error', { err });
 });
 
