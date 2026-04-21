@@ -1,11 +1,52 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
+
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
       interval: "weekly"
+      day: "saturday"
+      time: "08:00"
+      timezone: "Europe/Vienna"
+
+    open-pull-requests-limit: 5
+
+    labels:
+      - "dependencies"
+
+    commit-message:
+      prefix: "deps"
+
+    groups:
+      express-tooling:
+        patterns:
+          - "express"
+          - "express-*"
+          - "helmet"
+          - "morgan"
+          - "method-override"
+          - "express-session"
+      auth:
+        patterns:
+          - "passport"
+          - "passport-*"
+      database:
+        patterns:
+          - "mongoose"
+          - "connect-mongo"
+          - "connect-mongodb-session"
+          - "mongodb*"
+      templating:
+        patterns:
+          - "ejs"
+          - "ejs-mate"
+      uploads-and-media:
+        patterns:
+          - "multer"
+          - "cloudinary"
+          - "@mapbox/*"
+      general:
+        patterns:
+          - "*"
+```
