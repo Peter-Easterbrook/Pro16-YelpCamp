@@ -19,6 +19,9 @@ updates:
       prefix: "deps"
 
     groups:
+      all-dependencies:
+        patterns:
+          - "*"
       express-tooling:
         patterns:
           - "express"
