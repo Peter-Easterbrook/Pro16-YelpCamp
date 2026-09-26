@@ -5,9 +5,18 @@ const Review = require('./models/review');
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    req.session.returnTo = req.originalUrl;
+    // Only GET URLs can be revisited after login; a POST/PUT/DELETE target would 404
+    if (req.method === 'GET') req.session.returnTo = req.originalUrl;
     req.flash('error', 'You must be signed in first!');
     return res.redirect('/login');
+  }
+  next();
+};
+
+// Passport 0.6+ regenerates the session on login, wiping returnTo, so keep a copy on res.locals
+module.exports.storeReturnTo = (req, res, next) => {
+  if (req.session.returnTo) {
+    res.locals.returnTo = req.session.returnTo;
   }
   next();
 };
@@ -26,6 +35,10 @@ module.exports.validateCampground = (req, res, next) => {
 module.exports.isAuthor = async (req, res, next) => {
   const { id } = req.params;
   const campground = await Campground.findById(id);
+  if (!campground) {
+    req.flash('error', 'Cannot find that campground!');
+    return res.redirect('/campgrounds');
+  }
   if (!campground.author.equals(req.user._id)) {
     req.flash('error', 'You do not have permission to do that!');
     return res.redirect(`/campgrounds/${id}`);
@@ -36,6 +49,10 @@ module.exports.isAuthor = async (req, res, next) => {
 module.exports.isReviewAuthor = async (req, res, next) => {
   const { id, reviewId } = req.params;
   const review = await Review.findById(reviewId);
+  if (!review) {
+    req.flash('error', 'Cannot find that review!');
+    return res.redirect(`/campgrounds/${id}`);
+  }
   if (!review.author.equals(req.user._id)) {
     req.flash('error', 'You do not have permission to do that!');
     return res.redirect(`/campgrounds/${id}`);

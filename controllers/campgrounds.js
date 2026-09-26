@@ -21,6 +21,14 @@ module.exports.createCampground = async (req, res, next) => {
       limit: 1,
     })
     .send();
+  if (!geoData.body.features.length) {
+    // Don't leave the just-uploaded images orphaned on Cloudinary
+    for (const f of req.files) {
+      await cloudinary.uploader.destroy(f.filename);
+    }
+    req.flash('error', 'Could not find that location. Please try a different one.');
+    return res.redirect('/campgrounds/new');
+  }
   const campground = new Campground(req.body.campground);
   campground.geometry = geoData.body.features[0].geometry;
   campground.images = req.files.map((f) => ({

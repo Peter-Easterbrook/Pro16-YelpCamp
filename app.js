@@ -174,6 +174,10 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  // Malformed ObjectId in the URL (e.g. /campgrounds/abc) means the page doesn't exist
+  if (err.name === 'CastError' && err.kind === 'ObjectId') {
+    err = new ExpressError('Page Not Found', 404);
+  }
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Oh No, Something Went Wrong!';
   // Only log server errors, not 404s
