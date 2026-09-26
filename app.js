@@ -148,7 +148,7 @@ app.use(
       },
     },
     crossOriginEmbedderPolicy: false,
-  })
+  }),
 );
 
 app.use(passport.initialize());
