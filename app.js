@@ -60,11 +60,21 @@ app.use((req, res, next) => {
   next();
 });
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+const isProduction = process.env.NODE_ENV === 'production';
+
+const secret = process.env.SECRET;
+if (!secret) {
+  if (isProduction) throw new Error('SECRET environment variable must be set');
+  console.warn('SECRET not set; using an insecure development secret');
+}
+const sessionSecret = secret || 'thisshouldbeabettersecret!';
+
+// Render terminates TLS at its proxy; trust it so secure cookies and req.secure work
+if (isProduction) app.set('trust proxy', 1);
 
 const store = new MongoDBStore({
   uri: dbUrl,
-  secret,
+  secret: sessionSecret,
   collection: 'sessions',
   touchAfter: 24 * 60 * 60,
 });
@@ -76,11 +86,12 @@ store.on('error', function (e) {
 const sessionConfig = {
   store,
   name: 'session',
-  secret,
+  secret: sessionSecret,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
+    secure: isProduction,
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
@@ -152,8 +163,10 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user || null;
-  res.locals.success = req.flash('success');
-  res.locals.error = req.flash('error');
+  // Reading flash creates req.session.flash, which would save a session for every visitor
+  const hasFlash = Boolean(req.session.flash);
+  res.locals.success = hasFlash ? req.flash('success') : [];
+  res.locals.error = hasFlash ? req.flash('error') : [];
   next();
 });
 
