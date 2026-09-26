@@ -8,6 +8,11 @@ const map = new mapboxgl.Map({
 
 map.addControl(new mapboxgl.NavigationControl());
 
+// Pale blue sky around the globe instead of the default dark starfield
+map.on('style.load', () => {
+  map.setFog({ 'space-color': '#dcefff', 'star-intensity': 0 });
+});
+
 map.on('load', function () {
   // Add a new source from our GeoJSON data and
   // set the 'cluster' option to true. GL-JS will
