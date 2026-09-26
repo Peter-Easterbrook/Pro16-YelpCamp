@@ -18,7 +18,8 @@ Outside `NODE_ENV=production`, `app.js` loads `.env` via dotenv and forces DNS s
 
 - `MONGODB_URL` (falls back to local `yelp-camp`), `SECRET` (session secret)
 - `CLOUDINARY_NAME`, `CLOUDINARY_KEY`, `CLOUDINARY_SECRET`
-- `MAPBOX_TOKEN` — read server-side for geocoding and also injected into views via `process.env.MAPBOX_TOKEN`
+- `MAPBOX_TOKEN` — unrestricted, server-side geocoding only; never render it into a view
+- `MAPBOX_PUBLIC_TOKEN` — URL-restricted (live site + `localhost:3002`), injected into the map views. Local testing on another port will show blank maps
 
 ## Architecture
 
