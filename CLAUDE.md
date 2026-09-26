@@ -8,7 +8,7 @@ YelpCamp: a server-rendered Express 5 + MongoDB (Mongoose) campground review app
 
 ## Commands
 
-- `npm run dev` — start the server (`node app.js`), default port 3002 (`PORT` overrides).
+- `npm run dev` — start the server with `node --watch` (auto-restarts on file changes), default port 3002 (`PORT` overrides). Render runs `node app.js` directly.
 - `node seeds/index.js` — **wipes** the `campgrounds` collection and inserts 200 random campgrounds. It always connects to `mongodb://localhost:27017/yelp-camp` (ignores `MONGODB_URL`) and hardcodes an `author` ObjectId that must exist as a user in your local DB.
 - `npm run build` — just `npm install`; there is nothing to compile.
 
