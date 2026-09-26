@@ -20,7 +20,7 @@ const helmet = require('helmet');
 const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
-const MongoDBStore = require('connect-mongodb-session')(session);
+const { MongoStore } = require('connect-mongo');
 
 const dbUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017/yelp-camp';
 
@@ -72,10 +72,10 @@ const sessionSecret = secret || 'thisshouldbeabettersecret!';
 // Render terminates TLS at its proxy; trust it so secure cookies and req.secure work
 if (isProduction) app.set('trust proxy', 1);
 
-const store = new MongoDBStore({
-  uri: dbUrl,
-  secret: sessionSecret,
-  collection: 'sessions',
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  // New collection: documents in the old connect-mongodb-session 'sessions' collection use an incompatible format
+  collectionName: 'app_sessions',
   touchAfter: 24 * 60 * 60,
 });
 

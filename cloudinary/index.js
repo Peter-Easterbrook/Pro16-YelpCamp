@@ -49,7 +49,12 @@ const storage = new CloudinaryStorage({
   },
 });
 
+// Remove images uploaded by multer when the request they belong to is rejected
+const deleteUploads = (files = []) =>
+  Promise.all(files.map((f) => cloudinary.uploader.destroy(f.filename)));
+
 module.exports = {
   storage,
   cloudinary,
+  deleteUploads,
 };

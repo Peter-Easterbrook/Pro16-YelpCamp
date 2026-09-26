@@ -2,6 +2,7 @@ const { campgroundSchema, reviewSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const Campground = require('./models/campground');
 const Review = require('./models/review');
+const { deleteUploads } = require('./cloudinary');
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -21,10 +22,11 @@ module.exports.storeReturnTo = (req, res, next) => {
   next();
 };
 
-module.exports.validateCampground = (req, res, next) => {
+module.exports.validateCampground = async (req, res, next) => {
   const { error } = campgroundSchema.validate(req.body);
-  console.log(req.body);
   if (error) {
+    // Images were already uploaded by multer; remove them before rejecting
+    await deleteUploads(req.files);
     const msg = error.details.map((el) => el.message).join(',');
     throw new ExpressError(msg, 400);
   } else {

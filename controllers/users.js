@@ -29,9 +29,3 @@ module.exports.login = (req, res) => {
   const redirectUrl = res.locals.returnTo || '/campgrounds';
   res.redirect(redirectUrl);
 };
-
-module.exports.logout = (req, res) => {
-  req.logout();
-  req.flash('success', 'Goodbye!');
-  res.redirect('/campgrounds');
-};
