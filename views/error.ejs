@@ -3,8 +3,13 @@
   <div class="col-6 offset-3">
     <div class="alert alert-danger" role="alert">
       <h4 class="alert-heading"><%=err.message%></h4>
-      <% if (process.env.NODE_ENV !== "production") { %>
-      <p><%= err.stack %></p>
+      <% if (err.statusCode === 404) { %>
+      <p class="mb-0">The page you're looking for doesn't exist.</p>
+      <% } %>
+      <hr />
+      <a href="/campgrounds" class="alert-link">Back to all campgrounds</a>
+      <% if (process.env.NODE_ENV !== "production" && !(err.statusCode < 500)) { %>
+      <pre class="mt-3 small"><%= err.stack %></pre>
       <% } %>
     </div>
   </div>
