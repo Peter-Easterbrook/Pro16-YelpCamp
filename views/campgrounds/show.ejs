@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-6">
-    <div id="campgroundCarousel" class="carousel slide" data-ride="carousel">
+    <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% campground.images.forEach((img, i) => { %>
         <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
@@ -12,24 +12,24 @@
         <% }) %>
       </div>
       <% if(campground.images.length > 1) {%>
-      <a
+      <button
         class="carousel-control-prev"
-        href="#campgroundCarousel"
-        role="button"
-        data-slide="prev"
+        type="button"
+        data-bs-target="#campgroundCarousel"
+        data-bs-slide="prev"
       >
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
         class="carousel-control-next"
-        href="#campgroundCarousel"
-        role="button"
-        data-slide="next"
+        type="button"
+        data-bs-target="#campgroundCarousel"
+        data-bs-slide="next"
       >
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+        <span class="visually-hidden">Next</span>
+      </button>
       <% } %>
     </div>
 
@@ -57,7 +57,7 @@
           action="/campgrounds/<%=campground._id%>?_method=DELETE"
           method="POST"
         >
-          <button class="btn btn-danger float-right shadow-sm">Delete</button>
+          <button class="btn btn-danger float-end shadow-sm">Delete</button>
         </form>
       </div>
       <% } %>
@@ -110,7 +110,7 @@
           required
         ></textarea>
         <div class="valid-feedback">Looks good!</div>
-        <div class="text-right">
+        <div class="text-end">
           <button class="btn btn-success mt-3 shadow-sm">Submit</button>
         </div>
       </div>
@@ -129,7 +129,7 @@
           action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE"
           method="POST"
         >
-          <button class="btn btn-sm btn-danger float-right shadow-sm">
+          <button class="btn btn-sm btn-danger float-end shadow-sm">
             Delete
           </button>
         </form>

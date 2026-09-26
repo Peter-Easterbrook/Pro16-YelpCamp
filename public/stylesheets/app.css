@@ -44,9 +44,10 @@ h3 {
   height: 400px;
 }
 
-/* Keep flash messages on login/register no wider than the form card */
+/* Login/register card, with flash messages kept to the same width */
+.auth-page,
 main:has(.auth-page) > .alert {
-  max-width: 403px;
+  max-width: 25rem;
   margin-left: auto;
   margin-right: auto;
 }

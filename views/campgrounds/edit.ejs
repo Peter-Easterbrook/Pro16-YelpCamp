@@ -71,26 +71,20 @@
         <div class="valid-feedback text-light">Looks good!</div>
       </div>
       <div class="mb-3">
-        <div class="form-file custom-file">
-          <input
-            type="file"
-            class="form-file-input"
-            id="image"
-            name="image"
-            multiple
-          />
-          <label class="form-file-label" for="image">
-            <span class="form-file-text custom-file-label"
-              >Add more image(s)...</span
-            >
-            <span class="form-file-button">Browse</span>
-          </label>
-        </div>
+        <label class="form-label text-light" for="image">Add more image(s)</label>
+        <input
+          class="form-control"
+          type="file"
+          id="image"
+          name="image"
+          accept="image/jpeg,image/png"
+          multiple
+        />
       </div>
       <div class="mb-3">
         <% campground.images.forEach(function(img, i) { %>
 
-        <img src="<%=img.thumbnail %>" class="img-thumbnail mb-2 mr-2" alt="" />
+        <img src="<%=img.thumbnail %>" class="img-thumbnail mb-2 me-2" alt="" />
         <div class="form-check-inline">
           <input
             type="checkbox"
@@ -103,7 +97,7 @@
         <% })%>
       </div>
 
-      <button class="btn btn-info btn-block shadow-sm">
+      <button class="btn btn-info w-100 shadow-sm">
         Update Campground
       </button>
     </form>
