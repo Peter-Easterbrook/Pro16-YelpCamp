@@ -1,7 +1,8 @@
 <% layout('layouts/boilerplate')%>
 <div class="row mb-4">
   <h1 class="text-center my-4">Edit Campground</h1>
-  <div class="card col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 p-4 bg-dark bg-gradient shadow-sm">
+  <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 mb-4">
+  <div class="card p-3 bg-dark bg-gradient shadow-sm">
     <form
       action="/campgrounds/<%=campground._id%>?_method=PUT"
       method="POST"
@@ -101,5 +102,6 @@
         Update Campground
       </button>
     </form>
+  </div>
   </div>
 </div>
